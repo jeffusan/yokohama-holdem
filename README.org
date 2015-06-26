@@ -1,0 +1,92 @@
+* Yokohama Holdem
+
+Texas holdem bot frenzy.
+
+Yokohama holdem is an Akka system that plays Texas-holdem, no-limit poker.
+
+** Overview
+
+Exhaustive documentation can be found online for rules about Texas Holdem.
+
+From the system's perspective, a game consists of as many rounds as their are players.
+Once every player has folded and/or dealt one round, the game is finished.
+Each round consists of up to four turns.
+
+The turns are:
+
+- Hole (each player is dealt two private cards and bets)
+- Flop (three community cards are dealth and bet)
+- Turn (one community card is added and bet)
+- River (one community card is added and bet)
+
+If at any point only one player has not folded, the round is over.
+If two or more players have not folded at the completion of betting after the river turn, 
+a showdown occurs and the game is finished.
+
+** Initial High Level Design
+
+For the first release of Yokohama Holdem, two Akka systems will communicate- a GameEngine
+and a PlayerRepository.
+
+*** Player Repository
+
+The PlayerRepository acts as a configurable pool of players.
+Players can be registered via the player repository application. Players start with a configurable
+amount of money. Many players can be registered at once. 
+
+Players in the repository hold state- they can be playing a game, out of money, or available.
+
+If a player is available, they are a candidate for joining a new game.
+
+*** GameEngine
+
+The game engine periodically checks the player repository for available players. If more than
+two players are available, a new tournament is started by the GameEngine.
+
+The maximum number of players per tournament is configurable. The default is 9.
+
+When more than 9 players are available, more than one tournament should be started. The tournament
+is responsible for partitioning the available players into tournaments.
+
+*** Tournament
+
+A tournament consists of two or more players playing one round per player.
+
+At the completion of a tournament, the tournament should be responsible for publishing winnings.
+
+At the beginning of each round, one player is designated the dealer, the next player the SmallBlind,
+and the following the BigBlind. The tournament is reponsible for shifting the players with these
+designations prior to commencing a new round.
+
+*** Rounds
+
+A round is a sequence of turns as identified above. The Round is responsible for sending out
+the card messages and turn information to each player, and collecting the responses.
+
+Responses to turns from players may be a Raise(Int) or a Fold.
+
+The round needs to handle various conditions resulting from the reponses.
+
+If a player Folds, they are no longer eligible to participate in turns.
+
+If a Player raises, then the round needs to calculate the amount of the raise compared to the 
+other players. If one player raises more than the others, the round needs to send a message
+to the remaining active players asking them to call (raise to the same amount).
+
+AllIn- since this is a no-limit game, players can go AllIn. Doing so many result in SideBets.
+
+The Round must keep track of the pot resulting from bets during each turn.
+
+*** Player
+
+Players respond to Turn messages. They keep track of their money.
+They are created in the Player Repository, and they play Tournaments.
+
+Valid Player responses are:
+
+- Raise(Int) - raise their bet to a certain amount
+- Fold - do not continue playing the round
+- AllIn(Int) - bet all the money a player has - this is a special Raise indicating the player wishes
+to remain in the game but cannot add more money.
+
+
