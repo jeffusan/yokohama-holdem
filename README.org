@@ -90,3 +90,6 @@ Valid Player responses are:
 to remain in the game but cannot add more money.
 
 
+** Notes from 7/9/2015 Meetup
+
+During each Turn, a message containing game context will be sent to each Player, and a response message returned.
