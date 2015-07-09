@@ -1,5 +1,7 @@
 * Yokohama Holdem
 
+[[https://gitter.im/jeffusan/yokohama_holdem?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge][https://badges.gitter.im/Join Chat.svg]]
+
 Texas holdem bot frenzy.
 
 Yokohama holdem is an Akka system that plays Texas-holdem, no-limit poker.
