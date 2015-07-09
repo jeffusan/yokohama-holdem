@@ -41,21 +41,21 @@ If a player is available, they are a candidate for joining a new game.
 *** GameEngine
 
 The game engine periodically checks the player repository for available players. If more than
-two players are available, a new tournament is started by the GameEngine.
+two players are available, a new game is started by the GameEngine.
 
-The maximum number of players per tournament is configurable. The default is 9.
+The maximum number of players per game is configurable. The default is 9.
 
-When more than 9 players are available, more than one tournament should be started. The tournament
-is responsible for partitioning the available players into tournaments.
+When more than 9 players are available, more than one game should be started. The GameEngine
+is responsible for partitioning the available players into new games.
 
-*** Tournament
+*** Game
 
-A tournament consists of two or more players playing one round per player.
+A game consists of two or more players playing one round per player.
 
-At the completion of a tournament, the tournament should be responsible for publishing winnings.
+At the completion of a game, the game should be responsible for publishing winnings.
 
 At the beginning of each round, one player is designated the dealer, the next player the SmallBlind,
-and the following the BigBlind. The tournament is reponsible for shifting the players with these
+and the following the BigBlind. The game is reponsible for shifting the players with these
 designations prior to commencing a new round.
 
 *** Rounds
@@ -80,7 +80,7 @@ The Round must keep track of the pot resulting from bets during each turn.
 *** Player
 
 Players respond to Turn messages. They keep track of their money.
-They are created in the Player Repository, and they play Tournaments.
+They are created in the Player Repository, and they play Games.
 
 Valid Player responses are:
 
