@@ -93,3 +93,15 @@ to remain in the game but cannot add more money.
 ** Notes from 7/9/2015 Meetup
 
 During each Turn, a message containing game context will be sent to each Player, and a response message returned.
+
+The context will contain the following:
+
+- The player's cards
+- Community cards
+- Pot on the table, and any side bets
+- The current minimum bet
+- The turn of the round
+- The players and their state (playing, or folded)
+
+We also discussed the idea of providing the game history, eg all actions performed and player responses to those actions.
+
