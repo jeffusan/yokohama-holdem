@@ -2,22 +2,6 @@ package yokohama.holdem
 
 import scala.util.Random
 
-/**
-  * Evaluating Cards:
-  * 1- iterate over all cards, remove one at a time, save best hand and returning.
-  * 2- once at five cards, create a 5hand type, create a histogram.
-  * for each rank in the hand, count how often it appears.
-  * Sort the histogram by the backward count (high to low).
-  * 3- If this histogram counts are 4 and 1, then the hand is four-of-a-kind
-  * 4- If the histogram counts are 3 and 2, then full-house
-  * 5- if the histogram counts are 3 and 1, 1, then three-of-a-kind
-  * 6- if 2,2,1 then two-pair
-  * 7- if 4 ranks, then one pair
-  * 8- check if it is a flush
-  * 9- check for straight
-  * 10- if straight + flush, then royal flush
-  * 11- it is high card
-  */
 object Cards {
 
   sealed trait Color
@@ -49,68 +33,76 @@ object Cards {
   case object Pair extends Value
   case class HighCard(value: Int) extends Value
 
-  type Card = (Suit, Rank)
+  case class Card(suit: Suit, rank: Rank) extends Ordered[Card] {
+
+    def compare(that: Card): Int = {
+      valueOf(this.rank) - valueOf(that.rank)
+    }
+  }
+
+  // Sets guarantee unique results
   type BestHand = Set[Card]
+  type FullHand = Set[Card]
 
-  val D1 = (Diamonds, Numeric(1))
-  val D2 = (Diamonds, Numeric(2))
-  val D3 = (Diamonds, Numeric(3))
-  val D4 = (Diamonds, Numeric(4))
-  val D5 = (Diamonds, Numeric(5))
-  val D6 = (Diamonds, Numeric(6))
-  val D7 = (Diamonds, Numeric(7))
-  val D8 = (Diamonds, Numeric(8))
-  val D9 = (Diamonds, Numeric(9))
-  val D10 = (Diamonds, Numeric(10))
-  val DJ = (Diamonds, Jack)
-  val DQ = (Diamonds, Queen)
-  val DK = (Diamonds, King)
-  val DA = (Diamonds, Ace)
+  val D1 = Card(Diamonds, Numeric(1))
+  val D2 = Card(Diamonds, Numeric(2))
+  val D3 = Card(Diamonds, Numeric(3))
+  val D4 = Card(Diamonds, Numeric(4))
+  val D5 = Card(Diamonds, Numeric(5))
+  val D6 = Card(Diamonds, Numeric(6))
+  val D7 = Card(Diamonds, Numeric(7))
+  val D8 = Card(Diamonds, Numeric(8))
+  val D9 = Card(Diamonds, Numeric(9))
+  val D10 = Card(Diamonds, Numeric(10))
+  val DJ = Card(Diamonds, Jack)
+  val DQ = Card(Diamonds, Queen)
+  val DK = Card(Diamonds, King)
+  val DA = Card(Diamonds, Ace)
 
-  val S1 = (Spades, Numeric(1))
-  val S2 = (Spades, Numeric(2))
-  val S3 = (Spades, Numeric(3))
-  val S4 = (Spades, Numeric(4))
-  val S5 = (Spades, Numeric(5))
-  val S6 = (Spades, Numeric(6))
-  val S7 = (Spades, Numeric(7))
-  val S8 = (Spades, Numeric(8))
-  val S9 = (Spades, Numeric(9))
-  val S10 = (Spades, Numeric(10))
-  val SJ = (Spades, Jack)
-  val SQ = (Spades, Queen)
-  val SK = (Spades, King)
-  val SA = (Spades, Ace)
+  val S1 = Card(Spades, Numeric(1))
+  val S2 = Card(Spades, Numeric(2))
+  val S3 = Card(Spades, Numeric(3))
+  val S4 = Card(Spades, Numeric(4))
+  val S5 = Card(Spades, Numeric(5))
+  val S6 = Card(Spades, Numeric(6))
+  val S7 = Card(Spades, Numeric(7))
+  val S8 = Card(Spades, Numeric(8))
+  val S9 = Card(Spades, Numeric(9))
+  val S10 = Card(Spades, Numeric(10))
+  val SJ = Card(Spades, Jack)
+  val SQ = Card(Spades, Queen)
+  val SK = Card(Spades, King)
+  val SA = Card(Spades, Ace)
 
-  val H1 = (Hearts, Numeric(1))
-  val H2 = (Hearts, Numeric(2))
-  val H3 = (Hearts, Numeric(3))
-  val H4 = (Hearts, Numeric(4))
-  val H5 = (Hearts, Numeric(5))
-  val H6 = (Hearts, Numeric(6))
-  val H7 = (Hearts, Numeric(7))
-  val H8 = (Hearts, Numeric(8))
-  val H9 = (Hearts, Numeric(9))
-  val H10 = (Hearts, Numeric(10))
-  val HJ = (Hearts, Jack)
-  val HQ = (Hearts, Queen)
-  val HK = (Hearts, King)
-  val HA = (Hearts, Ace)
+  val H1 = Card(Hearts, Numeric(1))
+  val H2 = Card(Hearts, Numeric(2))
+  val H3 = Card(Hearts, Numeric(3))
+  val H4 = Card(Hearts, Numeric(4))
+  val H5 = Card(Hearts, Numeric(5))
+  val H6 = Card(Hearts, Numeric(6))
+  val H7 = Card(Hearts, Numeric(7))
+  val H8 = Card(Hearts, Numeric(8))
+  val H9 = Card(Hearts, Numeric(9))
+  val H10 = Card(Hearts, Numeric(10))
+  val HJ = Card(Hearts, Jack)
+  val HQ = Card(Hearts, Queen)
+  val HK = Card(Hearts, King)
+  val HA = Card(Hearts, Ace)
 
-  val C1 = (Clubs, Numeric(1))
-  val C2 = (Clubs, Numeric(2))
-  val C3 = (Clubs, Numeric(3))
-  val C4 = (Clubs, Numeric(4))
-  val C5 = (Clubs, Numeric(5))
-  val C6 = (Clubs, Numeric(6))
-  val C7 = (Clubs, Numeric(7))
-  val C8 = (Clubs, Numeric(8))
-  val C9 = (Clubs, Numeric(9))
-  val C10 = (Clubs, Numeric(10))
-  val CJ = (Clubs, Jack)
-  val CQ = (Clubs, Queen)
-  val CK = (Clubs, King)
-  val CA = (Clubs, Ace)
+  val C1 = Card(Clubs, Numeric(1))
+  val C2 = Card(Clubs, Numeric(2))
+  val C3 = Card(Clubs, Numeric(3))
+  val C4 = Card(Clubs, Numeric(4))
+  val C5 = Card(Clubs, Numeric(5))
+  val C6 = Card(Clubs, Numeric(6))
+  val C7 = Card(Clubs, Numeric(7))
+  val C8 = Card(Clubs, Numeric(8))
+  val C9 = Card(Clubs, Numeric(9))
+  val C10 = Card(Clubs, Numeric(10))
+  val CJ = Card(Clubs, Jack)
+  val CQ = Card(Clubs, Queen)
+  val CK = Card(Clubs, King)
+  val CA = Card(Clubs, Ace)
 
   def valueOf(rank: Rank): Int = rank match {
     case Ace        => 14
