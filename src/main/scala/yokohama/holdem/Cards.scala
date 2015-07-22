@@ -2,22 +2,6 @@ package yokohama.holdem
 
 import scala.util.Random
 
-/**
-  * Evaluating Cards:
-  * 1- iterate over all cards, remove one at a time, save best hand and returning.
-  * 2- once at five cards, create a 5hand type, create a histogram.
-  * for each rank in the hand, count how often it appears.
-  * Sort the histogram by the backward count (high to low).
-  * 3- If this histogram counts are 4 and 1, then the hand is four-of-a-kind
-  * 4- If the histogram counts are 3 and 2, then full-house
-  * 5- if the histogram counts are 3 and 1, 1, then three-of-a-kind
-  * 6- if 2,2,1 then two-pair
-  * 7- if 4 ranks, then one pair
-  * 8- check if it is a flush
-  * 9- check for straight
-  * 10- if straight + flush, then royal flush
-  * 11- it is high card
-  */
 object Cards {
 
   sealed trait Color
