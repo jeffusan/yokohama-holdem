@@ -9,6 +9,6 @@ class CardSpec extends FlatSpec with Matchers {
 
     val hand = Set(D1, S1, H4, SQ)
     val response = CardEvaluation.evaluate(hand)
-    assert(response == HighCard(1))
+    assert(response == HighCard(12))
   }
 }

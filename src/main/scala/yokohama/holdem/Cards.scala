@@ -56,6 +56,7 @@ object Cards {
     }
   }
 
+  // Sets guarantee unique results
   type BestHand = Set[Card]
   type FullHand = Set[Card]
 
