@@ -19,3 +19,11 @@ project/plugins/project/
 # Ensime
 .ensime
 .ensime_cache/
+
+# IntelliJ IDEA specific
+.idea/
+.idea_modules/
+*.iml
+
+# MacOS specific
+.DS_Store
