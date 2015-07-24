@@ -1,6 +1,7 @@
 * Yokohama Holdem
 
 [[https://gitter.im/jeffusan/yokohama_holdem?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge][https://badges.gitter.im/Join Chat.svg]]
+[[http://waffle.io/jeffusan/yokohama-holdem][https://badge.waffle.io/jeffusan/yokohama-holdem.svg?label=ready&title=Ready]]
 
 Texas holdem bot frenzy.
 
