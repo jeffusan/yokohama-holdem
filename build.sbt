@@ -7,4 +7,4 @@ scalaVersion := "2.11.6"
 libraryDependencies ++= Dependencies.holdem
 
 
-addCommandAlias("ge", "runMain yokohama.holdem.GameEngineApp -Dakka.remote.netty.tcp.port=2789 -Dakka.cluster.roles.0=game-engine")
+addCommandAlias("pr", "runMain yokohama.holdem.PlayerRepositoryApp -Dakka.remote.netty.tcp.port=2789 -Dakka.cluster.roles.0=player-repo")
