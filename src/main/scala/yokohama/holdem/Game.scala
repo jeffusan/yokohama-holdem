@@ -25,17 +25,17 @@ object Game {
     override val cardCount = 2
   }
 
-  def props(players: Set[String], betTimeout: FiniteDuration): Props =
-    Props(new Game(players, betTimeout))
+  def props(players: Set[String], askTimeout: Timeout): Props =
+    Props(new Game(players, askTimeout))
 }
 
 /**
   * Definition of the Game
   */
-class Game(players: Set[String], betTimeout: FiniteDuration) extends Actor with ActorLogging {
+class Game(players: Set[String], askTimeout: Timeout) extends Actor with ActorLogging {
 
   import Game._
-  implicit val askTimeout = Timeout(6.second)
+//  implicit val askTimeout = Timeout(6.second)
 
 
   def receive = {
