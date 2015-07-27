@@ -11,7 +11,7 @@ import Cards._
 import Player._
 
 /**
-  * 
+  * Presently, this is just a template for a game.
   */
 object Game {
 
@@ -25,18 +25,16 @@ object Game {
     override val cardCount = 2
   }
 
-  def props(players: Set[String], askTimeout: Timeout): Props =
-    Props(new Game(players, askTimeout))
+  def props(): Props =
+    Props(new Game())
 }
 
 /**
   * Definition of the Game
   */
-class Game(players: Set[String], askTimeout: Timeout) extends Actor with ActorLogging {
+class Game() extends Actor with ActorLogging {
 
   import Game._
-//  implicit val askTimeout = Timeout(6.second)
-
 
   def receive = {
     case _ =>

@@ -19,13 +19,13 @@ class Settings(system: ExtendedActorSystem) extends Extension {
 
   object gameEngine {
 
-    val maxPlayers: Int = yokohama getInt "gameEngine.max-players"
+    val maxPlayers: Int = yokohama getInt "game-engine.max-players"
 
     implicit val askTimeout: Timeout =
-      Duration(yokohama.getDuration("gameEngine.ask-timeout", Millis), Millis)
+      Duration(yokohama.getDuration("game-engine.ask-timeout", Millis), Millis)
 
     val startGameInterval: FiniteDuration =
-      Duration(yokohama.getDuration("gameEngine.start-interval", Millis), Millis)
+      Duration(yokohama.getDuration("game-engine.start-interval", Millis), Millis)
   }
 
   object game {

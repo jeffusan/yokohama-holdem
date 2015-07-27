@@ -8,3 +8,5 @@ libraryDependencies ++= Dependencies.holdem
 
 
 addCommandAlias("pr", "runMain yokohama.holdem.PlayerRepositoryApp -Dakka.remote.netty.tcp.port=2789 -Dakka.cluster.roles.0=player-repo")
+
+addCommandAlias("ge", "runMain yokohama.holdem.GameEngineApp -Dakka.remote.netty.tcp.port=2788 -Dakka.cluster.roles.0=game-engine")

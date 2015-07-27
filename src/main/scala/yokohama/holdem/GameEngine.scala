@@ -6,6 +6,9 @@ import akka.routing.FromConfig
 import akka.util.Timeout
 import scala.concurrent.duration.FiniteDuration
 
+/**
+  * A game engine organizes, creates, and manages games.
+  */
 object GameEngine {
 
   sealed trait State
@@ -19,7 +22,7 @@ object GameEngine {
 
   case class GameData( game: Option[ActorRef] = None )
 
-  val name: String = "poker-engine"
+  val name: String = "game-engine"
 
   def props( askTimeout: Timeout, startGameInterval: FiniteDuration, maxPlayers: Int): Props = Props(new GameEngine(askTimeout, startGameInterval, maxPlayers))
 
@@ -57,8 +60,7 @@ class GameEngine(askTimeout: Timeout, startGameInterval: FiniteDuration, maxPlay
   }
 
   protected def createGame(): ActorRef = {
-    val t = Set("something")
-    context.actorOf(Game.props(players: t,  askTimeout: askTimeout), "name")
+    context.actorOf(Game.props(), "name")
   }
     
 

@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 import scala.io.StdIn
 
 /**
-  * Currently not making use of the command loop
+  * The game engine app creates a game engine.
   */
 object GameEngineApp extends Base with Terminal {
 
