@@ -93,6 +93,26 @@ Valid Player responses are:
 to remain in the game but cannot add more money.
 
 
+** Getting Started
+
+To run the system, use the shortcuts in build sbt:
+
+For the game engine:
+#+begin_src shell
+$> sbt
+[info] Set current project to Yokohama Holdem
+> ge
+
+#+end_src
+
+For the player repository
+#+begin_src shell
+$> sbt
+[info] Set current project to Yokohama Holdem
+> pr
+
+#+end_src
+
 ** Notes from 7/9/2015 Meetup
 
 During each Turn, a message containing game context will be sent to each Player, and a response message returned.
