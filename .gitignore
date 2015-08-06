@@ -27,3 +27,6 @@ project/plugins/project/
 
 # MacOS specific
 .DS_Store
+
+# vim specific
+*.swp
