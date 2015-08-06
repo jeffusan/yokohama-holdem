@@ -14,7 +14,7 @@ abstract class Base {
     */
   def main(args: Array[String]): Unit = {
 
-    val system = ActorSystem("holdem")
+    val system = ActorSystem("holdem-system")
     val settings = Settings(system)
     val topLevel = initialize(system, settings)
     system.log.info(f"{} running%nEnter commands into the terminal`s` or `shutdown`", getClass.getSimpleName)

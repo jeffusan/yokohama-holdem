@@ -1,16 +1,30 @@
 package yokohama.holdem
 
-import akka.actor.{ ActorRef, ActorSystem, Props }
+import akka.actor.{ ActorRef, ActorSystem, Props, PoisonPill }
+import akka.contrib.pattern.{ ClusterSingletonManager, ClusterSingletonProxy }
 import scala.annotation.tailrec
 import scala.io.StdIn
 import akka.pattern.ask
-import yokohama.holdem.PlayerRepository._
-
 
 object PlayerRepositoryApp extends Base with Terminal {
 
-  override protected def initialize(system: ActorSystem, settings: Settings): ActorRef =
-    system.actorOf(PlayerRepository.props, PlayerRepository.name)
+  override protected def initialize(system: ActorSystem, settings: Settings): ActorRef = {
+    val singletonName = "singleton"
+    val role = Some(PlayerRepository.name)
+
+    system.actorOf(
+      ClusterSingletonManager.props(
+        PlayerRepository.props,
+        PlayerRepository.name,
+        PoisonPill,
+        role),
+      singletonName
+    )
+    system.actorOf(
+      ClusterSingletonProxy.props(s"/user/$singletonName/${PlayerRepository.name}", role),
+      PlayerRepository.name
+    )
+  }
 
   @tailrec
   override protected def commandLoop(system: ActorSystem, settings: Settings, topLevel: ActorRef): Unit = {
@@ -22,11 +36,11 @@ object PlayerRepositoryApp extends Base with Terminal {
         import settings.app.askTimeout
         import scala.concurrent.ExecutionContext.Implicits.global
 
-        val registerPlayerResponse = topLevel ? RegisterPlayer(name, props)
+        val registerPlayerResponse = topLevel ? PlayerRepository.RegisterPlayer(name, props)
 
         registerPlayerResponse onSuccess {
 
-          case PlayerRegistered(name) => system.log.warning("Player Registered {}", name)
+          case PlayerRepository.PlayerRegistered(name) => system.log.warning("Player Registered {}", name)
         }
 
         registerPlayerResponse onFailure {
