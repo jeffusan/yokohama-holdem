@@ -33,10 +33,6 @@ class Settings(system: ExtendedActorSystem) extends Extension {
       Duration(yokohama.getDuration("game.bet-timeout", Millis), Millis)
   }
 
-  object playerRepository {
-    val something: String = yokohama getString "player-repository.something"
-  }
-
   private val yokohama = system.settings.config getConfig "yokohama"
 }
 
