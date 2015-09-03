@@ -18,7 +18,7 @@ initialCommands := """|import yokohama.holdem._
                       |import scala.concurrent.duration._""".stripMargin
 
 
-addCommandAlias("ge", "runMain yokohama.holdem.GameEngineApp -Dakka.remote.netty.tcp.port=12551 -Dakka.cluster.roles.0=game-engine")
+addCommandAlias("ge", "runMain yokohama.holdem.GameEngineApp -Dakka.remote.netty.tcp.port=12551 -Dakka.cluster.roles=[game-engine]")
 
-addCommandAlias("pr", "runMain yokohama.holdem.PlayerRepositoryApp -Dakka.remote.netty.tcp.port=12552 -Dakka.cluster.roles.0=player-repository")
+addCommandAlias("pr", "runMain yokohama.holdem.PlayerRepositoryApp -Dakka.remote.netty.tcp.port=12552 -Dakka.cluster.roles=[player-repository]")
 
