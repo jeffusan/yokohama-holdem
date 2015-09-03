@@ -8,6 +8,7 @@ object Version {
   val combinators    = "2.11.0-M4" 
   val scopt          = "3.3.0"
   val scalaz         = "7.1.3"
+  val ficus          = "1.1.2"
 }
 
 object Library {
@@ -23,6 +24,7 @@ object Library {
   val combinatorsParsers = "org.scala-lang"    %  "scala-parser-combinators" % Version.combinators
   val scopt              = "com.github.scopt"  %% "scopt"                    % Version.scopt
   val scalaz             = "org.scalaz"        %% "scalaz-core"              % Version.scalaz
+  val ficus              = "net.ceedubs"       %% "ficus"                    % Version.ficus
 }
 
 object Dependencies {
@@ -39,6 +41,7 @@ object Dependencies {
     combinatorsParsers,
     scopt,
     scalaz,
+    ficus,
     scalaTest       %    "test",
     scalaCheck      %    "test"
   )

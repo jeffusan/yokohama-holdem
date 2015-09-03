@@ -2,7 +2,9 @@ package yokohama.holdem
 
 import akka.actor.{ Actor, ExtendedActorSystem, Extension, ExtensionKey }
 import akka.util.Timeout
-import scala.concurrent.duration.{ Duration, FiniteDuration, MILLISECONDS => Millis }
+import scala.concurrent.duration.FiniteDuration
+import net.ceedubs.ficus.Ficus._
+import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 
 object Settings extends ExtensionKey[Settings]
 
@@ -12,28 +14,23 @@ object Settings extends ExtensionKey[Settings]
   */
 class Settings(system: ExtendedActorSystem) extends Extension {
 
-  object app {
-    implicit val askTimeout: Timeout =
-      Duration(yokohama.getDuration("app.ask-timeout", Millis), Millis)
+  case class Yokohama(app: App, game: Game, gameEngine: GameEngine)
+
+  case class App(askTimeoutDuration: FiniteDuration) {
+    implicit val askTimeout: Timeout = askTimeoutDuration
   }
 
-  object gameEngine {
+  case class Game(betTimeout: FiniteDuration)
 
-    val maxPlayers: Int = yokohama getInt "game-engine.max-players"
-
-    implicit val askTimeout: Timeout =
-      Duration(yokohama.getDuration("game-engine.ask-timeout", Millis), Millis)
-
-    val startGameInterval: FiniteDuration =
-      Duration(yokohama.getDuration("game-engine.start-interval", Millis), Millis)
+  case class GameEngine(maxPlayers: Int, askTimeoutDuration: FiniteDuration, startGameInterval: FiniteDuration) {
+    implicit val askTimeout: Timeout = askTimeoutDuration
   }
 
-  object game {
-    val betTimeout: FiniteDuration =
-      Duration(yokohama.getDuration("game.bet-timeout", Millis), Millis)
-  }
+  private val yokohama = system.settings.config.as[Yokohama]("yokohama")
+  val app = yokohama.app
+  val game = yokohama.game
+  val gameEngine = yokohama.gameEngine
 
-  private val yokohama = system.settings.config getConfig "yokohama"
 }
 
 trait SettingsActor {
