@@ -6,6 +6,8 @@ import scala.annotation.tailrec
 import scala.io.StdIn
 import akka.pattern.ask
 
+import scala.util.{Failure, Success, Try}
+
 object PlayerRepositoryApp extends Base with Terminal {
 
   override protected def initialize(system: ActorSystem, settings: Settings): ActorRef = {
@@ -60,24 +62,31 @@ object PlayerRepositoryApp extends Base with Terminal {
       }
     }
 
-    Command(StdIn.readLine().split(" ")) match {
-
-      case Command.Unknown(command, message) =>
-        system.log.warning("Command Unknown {} ({})!", command, message)
+    print("PlayerRepository> ")
+    Try(StdIn.readLine().trim().split(" ")) match {
+      case Success(Array("")) =>
         commandLoop(system, settings, topLevel)
-
-      case Command.Register(name, props, count) =>
-        system.log.warning("registering...")
-        register(name, props, count)
-        commandLoop(system, settings, topLevel)
-
-      case Command.Shutdown =>
-        system.log.warning("shutting down...")
+      case Success(input) =>
+        Command(input) match {
+          case Command.NoOperation =>
+            commandLoop(system, settings, topLevel)
+          case Command.Shutdown =>
+            println("Shutting down player repository...")
+            system.shutdown()
+          case Command.Unknown(command, message) =>
+            system.log.warning("Unknown command {} ({})", command, message)
+            commandLoop(system, settings, topLevel)
+          case Command.Register(name, count) =>
+            system.log.warning("registering...")
+            register(name, Props(new Player()), count)
+            commandLoop(system, settings, topLevel)
+          case other =>
+            system.log.warning("I'm not responsible for this {}", other)
+            commandLoop(system, settings, topLevel)
+        }
+      case Failure(e) =>
+        println("Shutting down player repository...")
         system.shutdown()
-
-      case _ =>
-        system.log.warning("hail mary")
-        commandLoop(system, settings, topLevel)
     }
   }
 }
