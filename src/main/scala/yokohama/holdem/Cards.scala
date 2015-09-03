@@ -44,7 +44,6 @@ object Cards {
   type BestHand = Set[Card]
   type FullHand = Set[Card]
 
-  val D1 = Card(Diamonds, Numeric(1))
   val D2 = Card(Diamonds, Numeric(2))
   val D3 = Card(Diamonds, Numeric(3))
   val D4 = Card(Diamonds, Numeric(4))
@@ -59,7 +58,7 @@ object Cards {
   val DK = Card(Diamonds, King)
   val DA = Card(Diamonds, Ace)
 
-  val S1 = Card(Spades, Numeric(1))
+
   val S2 = Card(Spades, Numeric(2))
   val S3 = Card(Spades, Numeric(3))
   val S4 = Card(Spades, Numeric(4))
@@ -74,7 +73,7 @@ object Cards {
   val SK = Card(Spades, King)
   val SA = Card(Spades, Ace)
 
-  val H1 = Card(Hearts, Numeric(1))
+
   val H2 = Card(Hearts, Numeric(2))
   val H3 = Card(Hearts, Numeric(3))
   val H4 = Card(Hearts, Numeric(4))
@@ -89,7 +88,7 @@ object Cards {
   val HK = Card(Hearts, King)
   val HA = Card(Hearts, Ace)
 
-  val C1 = Card(Clubs, Numeric(1))
+
   val C2 = Card(Clubs, Numeric(2))
   val C3 = Card(Clubs, Numeric(3))
   val C4 = Card(Clubs, Numeric(4))
@@ -120,9 +119,9 @@ object Cards {
 
   case class Deck() {
     val c = Random.shuffle(List(
-      D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK, DA, S1, S2,
-      S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK, SA, H1, H2, H3, H4,
-      H5, H6, H7, H8, H9, H10, HJ, HQ, HK, HA, C1, C2, C3, C4, C5, C6,
+      D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK, DA, S2,
+      S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK, SA, H2, H3, H4,
+      H5, H6, H7, H8, H9, H10, HJ, HQ, HK, HA, C2, C3, C4, C5, C6,
       C7, C8, C9, C10, CJ, CQ, CK, CA))
 
     def slice(start: Int, end: Int): List[Card] = {
