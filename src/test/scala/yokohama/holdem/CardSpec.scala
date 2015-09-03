@@ -7,9 +7,9 @@ class CardSpec extends FlatSpec with MustMatchers {
 
   "A Hand" should "evaluate to a Value" in {
 
-    val hand = Set(D1, S1, H4, SQ)
+    val hand = Set(DA, SA, H4, SQ)
     val response = CardEvaluation().evaluate(hand)
-    response mustBe HighCard(12)
+    response mustBe HighCard(14)
   }
 
   it should "never be empty" in {
@@ -19,7 +19,7 @@ class CardSpec extends FlatSpec with MustMatchers {
   }
 
   "A Full Hand" should "never contain more than 7 cards" in {
-    val hand = Set(D1, S1, H4, SQ, C1, H10, HA, CA)
+    val hand = Set(DA, SA, H4, SQ, CA, H10, HA, C2)
     an[IllegalArgumentException] must be thrownBy CardEvaluation().evaluate(hand)
   }
 
@@ -36,13 +36,13 @@ class CardSpec extends FlatSpec with MustMatchers {
   }
 
   "Four matching values" should "evaluate to FourOfKind" in {
-    val hand = Set(D1, H1, S1, C1, CK)
+    val hand = Set(DA, HA, SA, CA, CK)
     val response = CardEvaluation().evaluate(hand)
     response mustBe FourOfKind
   }
 
   "Three and two values" should "evaluate to a FullHouse" in {
-    val hand = Set(D1, H1, S1, CK, DK)
+    val hand = Set(DA, HA, SA, CK, DK)
     val response = CardEvaluation().evaluate(hand)
     response mustBe FullHouse
   }
@@ -60,19 +60,19 @@ class CardSpec extends FlatSpec with MustMatchers {
   }
 
   "Three of a kind" should "evaluate to ThreeOfKind" in {
-    val hand = Set(D1, H1, S1, CK, DQ)
+    val hand = Set(DA, HA, SA, CK, DQ)
     val response = CardEvaluation().evaluate(hand)
     response mustBe ThreeOfKind
   }
 
   "Two pair" should "evaluate to TwoPair" in {
-    val hand = Set(D1, H1, S10, CK, DK)
+    val hand = Set(DA, HA, S10, CK, DK)
     val response = CardEvaluation().evaluate(hand)
     response mustBe TwoPair
   }
 
   "One pair" should "evaluate to Pair" in {
-    val hand = Set(D1, H1, S10, CK, DQ)
+    val hand = Set(DA, HA, S10, CK, DQ)
     val response = CardEvaluation().evaluate(hand)
     response mustBe Pair
   }
